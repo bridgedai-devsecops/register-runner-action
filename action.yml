@@ -1,0 +1,57 @@
+name: 'BridgedAI Register Runner'
+description: 'Register CI runner/build-agent context with BridgedAI for supply chain trust.'
+author: 'BridgedAI'
+branding:
+  icon: 'server'
+  color: 'blue'
+inputs:
+  api-url:
+    description: 'BridgedAI API base URL. Defaults to https://api.bridgedai.io when omitted.'
+    required: false
+    default: 'https://api.bridgedai.io'
+  access-token:
+    description: 'BridgedAI access token (from auth-action).'
+    required: false
+  api-key:
+    description: 'BridgedAI API key (alternative to access-token).'
+    required: false
+  organization-id:
+    description: 'BridgedAI organization id.'
+    required: true
+  build-id:
+    description: 'Optional BridgedAI build id to link runner context.'
+    required: false
+  project-id:
+    description: 'Optional BridgedAI project id.'
+    required: false
+  correlation-id:
+    description: 'Optional correlation id for evidence chain linking.'
+    required: false
+  mode:
+    description: 'production | observe | mock — observe writes local signals only.'
+    required: false
+    default: 'observe'
+  fail-on-error:
+    description: 'When true, fail the step on registration/API errors (default false for observe).'
+    required: false
+    default: 'false'
+  dry-run:
+    description: 'When true, validate payload without persisting (production mode only).'
+    required: false
+    default: 'false'
+  emit-demo-signals:
+    description: 'Tag emitted signals with dataSource=demo.'
+    required: false
+    default: 'false'
+outputs:
+  runner-id:
+    description: 'BridgedAI runner id when registered via API.'
+  provider-runner-id:
+    description: 'Provider-scoped runner key.'
+  registered:
+    description: 'Whether runner was registered on the backend.'
+  signal-id:
+    description: 'Local signal idempotency key.'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
